@@ -1,4 +1,5 @@
 from transformers import pipeline
+
 import sounddevice as sd
 import librosa
 import numpy as np
@@ -7,7 +8,7 @@ import wavio
 # Chargement du pipeline Hugging Face
 pipe = pipeline("automatic-speech-recognition", model="serge-wilson/wav2vec-base-wolof")
 
-# Demander le choix à l'utilisateur
+"""# Demander le choix à l'utilisateur
 choice = int(input("Choisissez une option (1: fichier audio, 2: enregistrement micro) : "))
 
 if choice == 1:
@@ -33,3 +34,9 @@ else:
 
 # Afficher le résultat
 print("Transcription : ", transcription_audio)
+"""
+
+from utils import *
+
+path = treate_audio("backend/static/audio/file1.wav")
+print(pipe(path))
