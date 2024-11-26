@@ -1,9 +1,9 @@
 from transformers import pipeline
 
-import sounddevice as sd
-import librosa
-import numpy as np
-import wavio
+# import sounddevice as sd
+# import librosa
+# import numpy as np
+# import wavio
 
 # Chargement du pipeline Hugging Face
 pipe = pipeline("automatic-speech-recognition", model="serge-wilson/wav2vec-base-wolof")
