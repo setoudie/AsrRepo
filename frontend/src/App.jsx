@@ -1,73 +1,44 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
-//
-// function App() {
-//   const [count, setCount] = useState(0)
-//
-//   return (
-//     <>
-//       <div>
-//         <a href="https://vite.dev" target="_blank">
-//           <img src={viteLogo} className="logo" alt="Vite logo" />
-//         </a>
-//         <a href="https://react.dev" target="_blank">
-//           <img src={reactLogo} className="logo react" alt="React logo" />
-//         </a>
-//       </div>
-//       <h1>Vite + React</h1>
-//       <div className="card">
-//         <button onClick={() => setCount((count) => count + 1)}>
-//           count is {count}
-//         </button>
-//         <p>
-//           Edit <code>src/App.jsx</code> and save to test HMR
-//         </p>
-//       </div>
-//       <p className="read-the-docs">
-//         Click on the Vite and React logos to learn more
-//       </p>
-//     </>
-//   )
-// }
-//
-// export default App
-
-
 // App.jsx
 
 import React, { useState } from 'react';
-import RecordButton from './components/RecordButton';
 import UploadButton from './components/UploadButton';
+import RecordButton from './components/RecordButton';
 import TranscriptionBox from './components/TranscriptionBox';
 import { sendAudioFile } from './api/api';
 
 const App = () => {
   const [transcription, setTranscription] = useState('');
-  const [audioFile, setAudioFile] = useState(null);
+  const [audioBlob, setAudioBlob] = useState(null);
 
-  const handleStartRecording = () => {
-    // Implémenter la logique d'enregistrement audio ici
-  };
-
-  const handleStopRecording = () => {
-    // Implémenter la logique pour stopper l'enregistrement et traiter l'audio
-  };
-
-  const handleFileUpload = (file) => {
-    setAudioFile(file);
-    transcribeAudio(file);  // Transcrire directement après le téléchargement
-  };
-
-  const transcribeAudio = async (file) => {
+  const handleFileUpload = async (file) => {
+    console.log('Fichier sélectionné :', file);
     const formData = new FormData();
     formData.append('audio', file);
 
     try {
-      const result = await sendAudioFile(formData);
-      setTranscription(result.transcription);  // Mettez ici la transcription retournée par Flask
+      const result = await sendAudioFile(formData); // Envoi au backend Flask
+      setTranscription(result.transcription); // Affiche la transcription reçue
+      console.log(transcription)
     } catch (error) {
+      console.error('Erreur lors de l\'envoi du fichier :', error);
+      setTranscription('Erreur de transcription.');
+    }
+  };
+
+  const handleStartRecording = () => {
+    console.log('Enregistrement démarré.');
+  };
+
+  const handleStopRecording = async (blob) => {
+    setAudioBlob(blob);
+    const formData = new FormData();
+    formData.append('audio', blob, 'audio.wav');
+
+    try {
+      const result = await sendAudioFile(formData);
+      setTranscription(result.transcription);
+    } catch (error) {
+      console.error('Erreur lors de la transcription de l\'audio :', error);
       setTranscription('Erreur de transcription.');
     }
   };
@@ -76,7 +47,7 @@ const App = () => {
     <div>
       <h1>Application ASR</h1>
       <RecordButton onStartRecording={handleStartRecording} onStopRecording={handleStopRecording} />
-      <UploadButton onFileUpload={handleFileUpload} />
+      <UploadButton sendAudioFile={handleFileUpload} />
       <TranscriptionBox transcription={transcription} />
     </div>
   );

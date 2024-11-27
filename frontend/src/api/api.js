@@ -1,20 +1,21 @@
-// api/api.js
+import axios from "axios";
 
-import axios from 'axios';
+const API_URL = "http://127.0.0.1:5000/transcribe"; // Assure-toi que l'URL est correcte
 
-const BASE_URL = 'http://localhost:5000';  // Assure-toi que Flask écoute à ce port
-
-// Fonction pour envoyer un fichier audio
-export const sendAudioFile = async (formData) => {
+export const sendAudioFile = async (audioFile) => {
   try {
-    const response = await axios.post(`${BASE_URL}/transcribe`, formData, {
+    const formData = new FormData();
+    formData.append("audio", audioFile); // Assure-toi que "audio" correspond à la clé attendue par Flask
+
+    const response = await axios.post(API_URL, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     });
-    return response.data;  // Retourne la transcription
+    console.log(response.data.transcription)
+    return response.data.transcription; // Retourne la transcription
   } catch (error) {
-    console.error("Erreur lors de l'envoi du fichier audio : ", error);
-    throw error;
+    console.error("Erreur lors de l'envoi de l'audio :", error);
+    throw error; // Laisse l'erreur se propager
   }
 };

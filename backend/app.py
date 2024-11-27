@@ -4,6 +4,8 @@ from transformers import pipeline
 import noisereduce as nr
 import librosa
 import numpy as np
+import soundfile as sf
+
 
 app = Flask(__name__)
 CORS(app)
@@ -22,18 +24,27 @@ def transcribe():
         return jsonify({"error": "No audio file provided"}), 400
 
     audio_file = request.files["audio"]
-    audio, sr = librosa.load(audio_file, sr=16000)  # Charger l'audio
+    react_audio_path = 'backend/static/audio/react_audio.wav'
+    audio_file.save(react_audio_path)
+    print(audio_file)
+    try:
+        # Charger l'audio
+        audio, sr = librosa.load(react_audio_path, sr=16000)
 
-    # Réduction du bruit
-    reduced_noise = nr.reduce_noise(y=audio, sr=sr)
+        # Réduction du bruit
+        reduced_noise = nr.reduce_noise(y=audio, sr=sr)
 
-    # Sauvegarder temporairement l'audio traité
-    librosa.output.write_wav("temp.wav", reduced_noise, sr)
+        # Sauvegarder temporairement l'audio traité
+        temp_filename = "backend/static/audio/temp/temp.wav"
+        sf.write(temp_filename, reduced_noise, sr)
 
-    # Transcrire
-    transcription = transcriber("temp.wav")["text"]
+        # Transcrire l'audio traité
+        transcription = transcriber(temp_filename)["text"]
+        print(transcription)
+        return jsonify({"transcription": transcription})
 
-    return jsonify({"transcription": transcription})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
