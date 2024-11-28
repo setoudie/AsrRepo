@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="logo" onClick={togglePopup}>
-        Setoudie
+        Sétoudié
       </div>
       <ul className="navLinks">
         <li>
@@ -34,12 +34,12 @@ const Navbar = () => {
           </a>
         </li>
         <li>
-          <a href="#tools" className="link">
+          <a href="https://slender-turtle-f82.notion.site/ASRApp-14c862a4b981808fa0abccbb4a622d0f?pvs=4" target="_blank" className="link">
             Tools
           </a>
         </li>
         <li>
-          <a href="" className="link">
+          <a href="https://github.com/setoudie/AsrRepo/blob/main/ReadMe.md" target="_blank" className="link">
             ReadMe
           </a>
         </li>
