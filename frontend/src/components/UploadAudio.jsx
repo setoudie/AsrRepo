@@ -1,35 +1,51 @@
 import React, { useState } from 'react';
 import { sendAudioFile } from '../api/api'; // Importe ta fonction API
+import './UploadAudio.css'; // Importation des styles CSS
 
 const UploadAudio = ({ onTranscription }) => {
-  const [audioFile, setAudioFile] = useState(null); // Nouveau state pour le fichier audio uploadé
-  const [audioSrc, setAudioSrc] = useState(null); // Nouveau state pour la source du fichier audio
+  const [audioFile, setAudioFile] = useState(null);
+  const [audioSrc, setAudioSrc] = useState(null);
+  const [loading, setLoading] = useState(false); // Nouveau state pour indiquer le chargement
+  const [error, setError] = useState(null); // Nouveau state pour gérer les erreurs
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
+      setLoading(true);
+      setError(null);
       try {
-        // Envoie le fichier audio à l'API pour transcription
         const transcription = await sendAudioFile(file);
-        onTranscription(transcription); // Passe la transcription au parent
+        onTranscription(transcription);
 
-        // Crée une URL de l'objet audio pour la lecture
         const audioURL = URL.createObjectURL(file);
-        setAudioFile(file); // Met à jour le fichier audio
-        setAudioSrc(audioURL); // Met à jour la source de l'audio
+        setAudioFile(file);
+        setAudioSrc(audioURL);
       } catch (err) {
         console.error('Erreur lors de l\'envoi du fichier audio :', err);
+        setError('Erreur lors de l\'envoi. Veuillez réessayer.');
+      } finally {
+        setLoading(false);
       }
     }
   };
 
   return (
-    <div>
-      <input type="file" accept="audio/*" onChange={handleFileChange} />
+    <div className="upload-audio">
+      <label htmlFor="audio-upload" className="upload-button">
+        {loading ? 'Uploading...' : 'Choose an Audio File'}
+      </label>
+      <input
+        id="audio-upload"
+        type="file"
+        accept="audio/*"
+        onChange={handleFileChange}
+        style={{ display: 'none' }} // Cache l'input brut
+      />
 
-      {/* Affiche le lecteur audio si un fichier est disponible */}
+      {error && <p className="error-message">{error}</p>}
+
       {audioSrc && (
-        <div style={{ marginTop: '20px' }}>
+        <div className="audio-preview">
           <h3>Uploaded Audio</h3>
           <audio controls>
             <source src={audioSrc} type={audioFile?.type} />

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { sendAudioFile } from '../api/api'; // Importe ta fonction API
+import './RecordAudio.css'; // Importation du fichier CSS pour les styles
 
 const RecordAudio = ({ onTranscription }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [audioFile, setAudioFile] = useState(null); // Nouveau state pour stocker le fichier audio
-  const [audioSrc, setAudioSrc] = useState(null); // Nouveau state pour la source du fichier audio
+  const [audioFile, setAudioFile] = useState(null);
+  const [audioSrc, setAudioSrc] = useState(null);
 
   const startRecording = async () => {
-    // Réinitialise les états audioFile et audioSrc lorsqu'on commence un nouvel enregistrement
     setAudioFile(null);
     setAudioSrc(null);
 
@@ -18,13 +18,12 @@ const RecordAudio = ({ onTranscription }) => {
       recorder.ondataavailable = async (event) => {
         try {
           const blob = event.data;
-          const transcription = await sendAudioFile(blob); // Utilise l'API pour envoyer l'audio
-          onTranscription(transcription); // Passe la transcription au parent
+          const transcription = await sendAudioFile(blob);
+          onTranscription(transcription);
 
-          // Crée un URL de l'objet audio pour la lecture
           const audioURL = URL.createObjectURL(blob);
-          setAudioFile(blob); // Met à jour le fichier audio
-          setAudioSrc(audioURL); // Met à jour la source de l'audio
+          setAudioFile(blob);
+          setAudioSrc(audioURL);
         } catch (err) {
           console.error('Erreur lors de l\'envoi de l\'audio enregistré :', err);
         }
@@ -45,14 +44,16 @@ const RecordAudio = ({ onTranscription }) => {
   };
 
   return (
-    <div>
-      <button onClick={isRecording ? stopRecording : startRecording}>
+    <div className="record-audio">
+      <button
+        className={`record-button ${isRecording ? 'recording' : ''}`}
+        onClick={isRecording ? stopRecording : startRecording}
+      >
         {isRecording ? 'Stop Recording' : 'Start Recording'}
       </button>
 
-      {/* Affiche le lecteur audio si un fichier est disponible */}
       {audioSrc && (
-        <div style={{ marginTop: '20px' }}>
+        <div className="audio-preview">
           <h3>Recorded Audio</h3>
           <audio controls>
             <source src={audioSrc} type={audioFile?.type} />

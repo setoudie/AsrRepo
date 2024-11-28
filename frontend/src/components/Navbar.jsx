@@ -1,64 +1,64 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import './Navbar.css';
 
 const Navbar = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // Popup state
+
+  // Dynamically load the LinkedIn Badge script
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://platform.linkedin.com/badges/js/profile.js";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Clean up the script when the component unmounts
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen); // Toggle popup visibility
+  };
+
   return (
-    <nav style={styles.navbar}>
-      <div style={styles.logo}>
+    <nav className="navbar">
+      <div className="logo" onClick={togglePopup}>
         Setoudie
       </div>
-      <ul style={styles.navLinks}>
+      <ul className="navLinks">
         <li>
-          <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" style={styles.link}>
+          <a href="https://www.linkedin.com/in/seny-toutou-diedhiou" target="_blank" rel="noopener noreferrer" className="link">
             LinkedIn
           </a>
         </li>
         <li>
-          <a href="#tools" style={styles.link}>
+          <a href="#tools" className="link">
             Tools
           </a>
         </li>
         <li>
-          <a href="#readme" style={styles.link}>
+          <a href="" className="link">
             ReadMe
           </a>
         </li>
       </ul>
+
+      {/* Popup Modal */}
+      {isPopupOpen && (
+        <div className="popup">
+          <div className="popupContent">
+            <span className="closeButton" onClick={togglePopup}>&times;</span>
+            {/* LinkedIn Badge HTML */}
+            <div className="badge-base LI-profile-badge" data-locale="fr_FR" data-size="medium" data-theme="light" data-type="VERTICAL" data-vanity="seny-toutou-diedhiou" data-version="v1">
+              <a className="badge-base__link LI-simple-link" href="https://sn.linkedin.com/in/seny-toutou-diedhiou?trk=profile-badge">Sény Toutou Diedhiou 🇸🇳</a>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
-};
-
-const styles = {
-  navbar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '10px 20px',
-    backgroundColor: '#333',
-    color: '#fff',
-  },
-  logo: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  navLinks: {
-    listStyle: 'none',
-    display: 'flex',
-    gap: '15px',
-    margin: 0,
-    padding: 0,
-  },
-  link: {
-    textDecoration: 'none',
-    color: '#fff',
-    fontSize: '16px',
-    fontWeight: '500',
-    transition: 'color 0.3s',
-  },
-};
-
-styles.link[':hover'] = {
-  color: '#1e90ff', // Change la couleur lors du survol
 };
 
 export default Navbar;

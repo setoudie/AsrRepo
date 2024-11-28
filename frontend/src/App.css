@@ -1,120 +1,148 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0; /* Remove default margin */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh; /* Ensures the app fills the entire height */
+  /*background: linear-gradient(135deg, #6e7cfc, #78b3ff);*/
+  padding: 20px;
+}
+
+.main-content {
+  width: 100%;
+  max-width: 800px;
   text-align: center;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  margin-top: 20px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.app-title {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-/* App.css */
-
-nav {
+/* Navbar */
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  background-color: #1a1a1a;
-  color: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
-nav .logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #fff;
-  cursor: pointer;
+.navbar .logo {
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
-nav ul {
+.navbar .navLinks {
   list-style: none;
   display: flex;
-  gap: 20px;
-  margin: 0;
-  padding: 0;
+  gap: 15px;
 }
 
-nav a {
+.navbar .navLinks li a {
   text-decoration: none;
-  color: #fff;
+  color: white;
   font-size: 16px;
   font-weight: 500;
-  transition: color 0.3s ease;
-  padding: 8px 12px;
-  border-radius: 4px;
+  transition: color 0.3s;
 }
 
-nav a:hover {
+.navbar .navLinks li a:hover {
   color: #1e90ff;
-  background-color: #333;
 }
 
+/* RecordAudio Button */
 button {
+  padding: 12px 24px;
+  font-size: 1.2rem;
   background-color: #1e90ff;
-  color: #fff;
+  color: white;
   border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  font-size: 16px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
+  margin-top: 20px;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #007bff;
 }
 
-input[type="file"] {
-  margin-top: 10px;
-  font-size: 14px;
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
-.transcription-box {
-  border: 1px solid #ddd;
+/* Audio Player */
+audio {
+  margin-top: 20px;
+  width: 100%;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Transcription Box */
+.transcription-box {
+  border: 2px solid #1e90ff;
   padding: 20px;
-  min-height: 100px;
-  background-color: #f5f5f5;
-  font-family: Arial, sans-serif;
-  text-align: left;
-  font-size: 16px;
-  line-height: 1.5;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  margin-top: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.transcription-box h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.transcription-box p {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.transcription-box .placeholder {
+  font-size: 1rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+.transcription-box .text {
   word-wrap: break-word;
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.5;
 }
