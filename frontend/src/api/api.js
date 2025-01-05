@@ -12,10 +12,10 @@ export const sendAudioFile = async (audioFile) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(response.data.transcription)
+    // console.log(response.data.transcription)
     return response.data.transcription; // Retourne la transcription
   } catch (error) {
-    console.error("Erreur lors de l'envoi de l'audio :", error);
+    // console.error("Erreur lors de l'envoi de l'audio :", error);
     throw error; // Laisse l'erreur se propager
   }
 };

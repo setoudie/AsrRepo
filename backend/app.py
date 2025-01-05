@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from transformers import pipeline
 import noisereduce as nr
@@ -16,7 +16,8 @@ transcriber = pipeline("automatic-speech-recognition", model="serge-wilson/wav2v
 
 @app.route('/')
 def hello():
-    return jsonify(msg='hello!!')
+    # return jsonify(msg='Hello render    !!')
+    return render_template('index.html')
 
 # cette route permet de transcrire l'audio en text
 @app.route("/transcribe", methods=["POST"])
@@ -46,6 +47,7 @@ def transcribe():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
