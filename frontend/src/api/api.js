@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:5000/transcribe"; // Assure-toi que l'URL est correcte
+const API_URL = import.meta.env.RENDER_API_URL || "http://127.0.0.1:5000/transcribe";
 
 export const sendAudioFile = async (audioFile) => {
   try {

@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from transformers import pipeline
@@ -26,7 +27,7 @@ def transcribe():
     audio_file = request.files["audio"]
     react_audio_path = 'backend/static/audio/react_audio.wav'
     audio_file.save(react_audio_path)
-    print(audio_file)
+    # print(audio_file)
     try:
         # Charger l'audio
         audio, sr = librosa.load(react_audio_path, sr=16000)
@@ -40,11 +41,11 @@ def transcribe():
 
         # Transcrire l'audio traité
         transcription = transcriber(temp_filename)["text"]
-        print(transcription)
+        # print(transcription)
         return jsonify({"transcription": transcription})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
