@@ -39,7 +39,7 @@ const Navbar = () => {
           </a>
         </li>
         <li>
-          <a href="https://github.com/setoudie/AsrRepo/blob/main/ReadMe.md" target="_blank" className="link">
+          <a href="https://github.com/setoudie/AsrRepo/blob/main/README.md" target="_blank" className="link">
             ReadMe
           </a>
         </li>
