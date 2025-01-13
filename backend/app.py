@@ -26,7 +26,10 @@ def transcribe():
         return jsonify({"error": "No audio file provided"}), 400
 
     audio_file = request.files["audio"]
-    react_audio_path = 'backend/static/audio/react_audio.wav'
+    if  audio_file:
+        print("No audio file provided")
+
+    react_audio_path = 'react_audio.wav'
     audio_file.save(react_audio_path)
     # print(audio_file)
     try:
@@ -37,7 +40,7 @@ def transcribe():
         reduced_noise = nr.reduce_noise(y=audio, sr=sr)
 
         # Sauvegarder temporairement l'audio traité
-        temp_filename = "backend/static/audio/temp/temp.wav"
+        temp_filename = "temp.wav"
         sf.write(temp_filename, reduced_noise, sr)
 
         # Transcrire l'audio traité

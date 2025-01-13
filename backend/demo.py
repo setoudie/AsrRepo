@@ -1,42 +1,45 @@
-from transformers import pipeline
+# Testing cloudnary config
+# Set your Cloudinary credentials
+# ==============================
+from dotenv import load_dotenv
+load_dotenv()
+from datetime import datetime
 
-# import sounddevice as sd
-# import librosa
-# import numpy as np
-# import wavio
+# Import the Cloudinary libraries
+# ==============================
+import cloudinary
+from cloudinary import CloudinaryImage
+import cloudinary.uploader
+import cloudinary.api
 
-# Chargement du pipeline Hugging Face
-pipe = pipeline("automatic-speech-recognition", model="serge-wilson/wav2vec-base-wolof")
+# Import to format the JSON responses
+# ==============================
+import json
 
-"""# Demander le choix à l'utilisateur
-choice = int(input("Choisissez une option (1: fichier audio, 2: enregistrement micro) : "))
+# Set configuration parameter: return "https" URLs by setting secure=True
+# ==============================
+config = cloudinary.config(secure=True)
 
-if choice == 1:
-    # Transcrire un fichier audio
-    transcription_audio = pipe("static/file1.wav")
-elif choice == 2:
-    # Enregistrer via le micro
-    print("Enregistrement en cours... Parlez maintenant.")
+# Log the configuration
+# ==============================
+print("****1. Set up and configure the SDK:****\nCredentials: ", config.cloud_name, config.api_key, "\n")
 
-    # Paramètres d'enregistrement
-    samplerate = 16000  # 16 kHz pour Wav2Vec2
-    duration = 5  # 5 secondes d'enregistrement
-    audio = sd.rec(int(samplerate * duration), samplerate=samplerate, channels=1, dtype=np.float32)
-    sd.wait()  # Attendre la fin de l'enregistrement
+def uploadAudio():
 
-    # Sauvegarder temporairement l'enregistrement
-    wavio.write("temp_audio.wav", audio, samplerate, sampwidth=2)
+  # Upload the image and get its URL
+  # ==============================
 
-    # Transcrire l'audio enregistré
-    transcription_audio = pipe("temp_audio.wav")
-else:
-    transcription_audio = "Option invalide."
+  uploader = cloudinary.uploader.upload(
+      "temp.wav",
+      asset_folder="asr_files/audio/processed",
+      resource_type="video",
+      public_id=f"raw_audio_{datetime.now().strftime('%Y%m%d%H%M%S')}.wav",
+      overwrite=True,
+      tags=["raw", "wolof", "audio"]
+  )
+  print("****2. Upload the audio file****\n", uploader)
+  # return uploader
 
-# Afficher le résultat
-print("Transcription : ", transcription_audio)
-"""
+uploadAudio()
 
-from utils import *
-
-path = treate_audio("backend/static/audio/file1.wav")
-print(pipe(path))
+# print(result)
