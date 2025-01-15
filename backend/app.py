@@ -94,7 +94,7 @@ def transcribe():
         #
         # # Transcrire l'audio traité
         transcription = transcriber(response.content)["text"]
-        print(transcription)
+        print("transcription: ",transcription)
         return jsonify({"transcription": transcription})
 
 
