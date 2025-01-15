@@ -60,7 +60,7 @@ def transcribe():
       overwrite=True,
       tags=["raw", "wolof", "audio"]
     )
-    print(raw_uploader)
+    # print(raw_uploader)
 
     raw_audio_url = raw_uploader["secure_url"]
     # audio_file.save(raw_audio_url)
@@ -68,7 +68,7 @@ def transcribe():
     try:
         # Télécharger le fichier audio depuis Cloudinary
         response = requests.get(raw_audio_url)
-        print(response.status_code)
+        # print(response.status_code)
 
         if response.status_code != 200:
             return jsonify({"error": "Failed to download audio from Cloudinary"}), 500
