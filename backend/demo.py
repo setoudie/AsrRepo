@@ -18,7 +18,7 @@ import json
 
 # Set configuration parameter: return "https" URLs by setting secure=True
 # ==============================
-config = cloudinary.config(secure=True)
+# config = cloudinary.config(secure=True)
 
 # Log the configuration
 # ==============================
