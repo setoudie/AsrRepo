@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:5000/transcribe";
+const API_URL = "https://asr-application.onrender.com/transcribe";
 
 export const sendAudioFile = async (audioFile) => {
   try {
